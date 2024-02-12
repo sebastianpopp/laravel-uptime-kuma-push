@@ -10,10 +10,10 @@ class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule): void
     {
-        parent::schedule($schedule);
-
         if (config('uptime-kuma.push_url')) {
             $schedule->job(new UptimeKumaPush)->everyMinute();
         }
+
+        parent::schedule($schedule);
     }
 }
