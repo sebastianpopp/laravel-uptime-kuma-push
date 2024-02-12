@@ -12,6 +12,8 @@ class Kernel extends ConsoleKernel
     {
         parent::schedule($schedule);
 
-        $schedule->job(new UptimeKumaPush)->everyMinute();
+        if (config('uptime-kuma.push_url')) {
+            $schedule->job(new UptimeKumaPush)->everyMinute();
+        }
     }
 }
