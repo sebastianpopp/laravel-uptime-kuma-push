@@ -2,7 +2,9 @@
 
 namespace SebastianPopp\LaravelUptimeKumaPush;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
+use SebastianPopp\LaravelUptimeKumaPush\Jobs\UptimeKumaPush;
 
 class LaravelUptimeKumaPushServiceProvider extends ServiceProvider
 {
@@ -15,13 +17,14 @@ class LaravelUptimeKumaPushServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/uptime-kuma.php' => config_path('uptime-kuma.php')
         ], 'uptime-kuma-config');
+    }
 
-        $this->app->singleton('sebastianpopp.laravel-uptime-kuma-push.console.kernel', function($app) {
-            $dispatcher = $app->make(\Illuminate\Contracts\Events\Dispatcher::class);
-
-            return new \SebastianPopp\LaravelUptimeKumaPush\Console\Kernel($app, $dispatcher);
+    public function boot()
+    {
+        $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
+            $schedule->job(new UptimeKumaPush)
+                ->when(config('uptime-kuma.push_url'))
+                ->everyMinute();
         });
-
-        $this->app->make('sebastianpopp.laravel-uptime-kuma-push.console.kernel');
     }
 }
