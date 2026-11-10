@@ -24,7 +24,7 @@ class LaravelUptimeKumaPushServiceProvider extends ServiceProvider
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
             $schedule->job(new UptimeKumaPush)
                 ->when(config('uptime-kuma.push_url'))
-                ->everyMinute();
+                ->cron(config('uptime-kuma.frequency', '* * * * *'));
         });
     }
 }
