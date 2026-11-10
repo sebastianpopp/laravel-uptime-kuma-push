@@ -15,7 +15,7 @@ class LaravelUptimeKumaPushServiceProvider extends ServiceProvider
         );
 
         $this->publishes([
-            __DIR__.'/../config/uptime-kuma.php' => config_path('uptime-kuma.php')
+            __DIR__.'/../config/uptime-kuma.php' => config_path('uptime-kuma.php'),
         ], 'uptime-kuma-config');
     }
 

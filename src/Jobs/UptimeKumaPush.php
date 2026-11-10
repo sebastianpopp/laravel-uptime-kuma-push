@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Http;
 
 class UptimeKumaPush implements ShouldQueue
 {
@@ -20,6 +21,6 @@ class UptimeKumaPush implements ShouldQueue
             return;
         }
 
-        @file_get_contents($push_url);
+        Http::get($push_url);
     }
 }
